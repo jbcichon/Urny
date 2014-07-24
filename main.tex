@@ -76,7 +76,7 @@ and balls flow between urns.
 We will show a general form of formulas for the expected numbers of ``black'' balls in a 
 given urn and we analyze some special cases (parallel and serial configurations)
 We are mainly interested in a counterpart of the Coupon Collector Problem 
-for the considered model. 
+for the model considered. 
 
 The primary motivation for our research is the formal analysis of  MIX protocol (introduced by D. Chaum) 
 and its immunity against so-called flooding (blending) attacks. 
@@ -88,7 +88,7 @@ and its immunity against so-called flooding (blending) attacks.
 
 \section{Introduction}
 
-In this paper we investigate following process: we have a finite directed 
+In this paper we investigate the following process. We have a finite directed 
 acyclic (i.e. without directed cycles) graph  $\mathcal{G} = (V,E)$; we have also a family of urns 
 $(U_a)_{a \in V}$ indexed by nodes of  $\mathcal{G}$. 
 Each urn contains some number of balls of two kinds - say black and white balls.  
@@ -98,18 +98,18 @@ such that $(b,a) \in E$. Similarly, a node $a\in V$ is a \textit{sink node}
 if there is no $b\in V$ such that $(a,b) \in E$.
 At each round (enumerated by natural numbers): 
 \begin{enumerate}
-\item we choose a random path $v_0,\ldots,v_k$ from source to sink, 
+\item we choose a random path $v_0,\ldots,v_k$ from a source to a sink, 
 \item we pick randomly balls $b_0, \ldots, b_k$ from urns $U_{v_0}, \ldots, U_{v_k}$, 
 \item we remove the ball  $b_k$ from $U_{v_k}$,
 \item for each $i<k$ we move the ball $b_i$ to the urn  $U_{v_{i+1}}$,
-\item we put one black ball to the urn $U_{v_0}$.
+\item we put one black ball in the urn $U_{v_0}$.
 \end{enumerate}
 Notice that the number of balls in each urn is constant during the evolution
 of this process. We assume that all 
 random choices done during the executions of our process are  done independently 
 according to uniform distributions.
 
-Notice that if $\mathcal{G} = (\{e\},\emptyset)$ then our model reduces to 
+Notice that if $\mathcal{G} = (\{v\},\emptyset)$ then our model reduces to 
 the standard, classical  ``urn model''. 
 In our investigations the classical model describes properties of the urns 
 indexed by source nodes. The behavior of remaining urns $U_b$ 
@@ -118,7 +118,7 @@ depends on the behavior of  of all urns from the family $\{U_a:(a,b) \in E\}$.
 The first motivation of our research is the analysis of blending attacks on some kind 
 of MIX-es analyzed in e.g. \cite{IH05}, \cite{tic}, \cite{lat}
 MIX-es, introduced in the paper \cite{MIX}, are  one of the most popular 
-way of protecting anonymous communication. More information about MIX-es can be found in Section~\ref{MIX} 
+way of protecting anonymous communication. More information about MIX-es can be found in Section~\ref{MIX}.
 \Marek{Moze by cos dodac na zasadzie previous work z lini 
 badan kul-urn ?}
 
@@ -196,7 +196,12 @@ fixed for each urn. Indeed, each ball is replaced in each step by exactly one ba
 
 \input{rycina1.tex}
 
-
+Let us describe more precisely the choice of random path  in the graph $\mathcal{G}$.
+We start at one of sources at random (equally likely). Then we take an edge out of it
+at random (all neighbors are equally likely). at every node we arrive at
+we do the same thing: choose one of the neighbors at random. The
+walk is perpetuated till a sink is reached.
+  
 We denote by $p_a$ the probability that randomly chosen path 
 from some source to some sink goes through the node $a$. 
 If $(a,b) \in E$ then 
@@ -237,15 +242,15 @@ and suppose that we know $\E{B_b(t)}$  for each $b\in V$.
 Then
 \begin{itemize}
 \item
-At the $(t+1)$th round the number of black urns in the node $a$ may increase by $1$
+At the $(t+1)$st round the number of black urns in the node $a$ may increase by $1$
 if there is $b$ such that $(b,a)$ is on the chosen path, 
 a black ball was selected from $U_b$ and a white ball was selected from $U_a$.
-This happens with probability $p_{ba} \frac{B_b(t)}{n_b} \frac{n_a - B_a(t)}{n_a}$.
+This happens with probability $p_{ba} \cdot \frac{B_b(t)}{n_b} \cdot \frac{n_a - B_a(t)}{n_a}$.
 \item
-At the $(t+1)$th round the number of black urns in the node $a$ may decrease by $1$
+At the $(t+1)$st round the number of black urns in the node $a$ may decrease by $1$
 if there is $b$ such that $(b,a)$ is on the chosen path, 
 a white ball was selected from $U_b$ and a black ball was selected from $U_a$.
-This happens with probability $p_{ba} \frac{n_b - B_b(t)}{n_b} \frac{B_a(t)}{n_a}$.
+This happens with probability $p_{ba} \cdot \frac{n_b - B_b(t)}{n_b} \cdot\frac{B_a(t)}{n_a}$.
 \end{itemize}
 Putting this facts together we deduce that
 \begin{equation}
@@ -256,19 +261,19 @@ Putting this facts together we deduce that
 \end{equation}
 
 Let $W_a(t)$ denotes the number of white balls in the urn $U_a$ 
-after the round $t$. Notice that $W_a(t) = n_a - B_a(t)$ for each $a\in V_{\bullet}$, 
+after round $t$. Notice that $W_a(t) = n_a - B_a(t)$ for each $a\in V_{\bullet}$, 
 so,  among others, we have  $W_{\bullet}(t) = 0$ for each $t$. More generally,
 if $d(a)$ denotes the minimal distance of the node $a$ from some 
 source link from $V$ then then each $t\leq d(a)$ we have $W_a(t) = n_a$.
 
-After simple transformation we get
+After a simple transformation we get
 \begin{equation}
 \label{eq:generalRecurrenceWhite}
 \E{W_a(t+1)} = 
 \sum_{(b,a)\in E} \frac{p_{b,a}}{n_b} \E{W_b(t)} +
 \left(1-\frac{p_a}{n_a}\right) \E{W_a(t)}~.
 \end{equation}
-Notice that recurrences (\ref{eq:generalRecurrence} ) and 
+Notice that recurrences (\ref{eq:generalRecurrence}) and 
 (\ref{eq:generalRecurrenceWhite}) are the same. 
 The solutions of these recurrences
 differs on initial conditions.
@@ -371,7 +376,7 @@ Therefore the term $\frac{\alpha(x)}{(1-\Delta)^k}$ is of the same form.
 This finishes the proof of theorem.
 \end{proof}
 
-Theorem \ref{thm:toLineraAlgebra} gives us a general form of a a solution
+Theorem \ref{thm:toLineraAlgebra} gives us a general form of a solution
 of the recurrence equation (\ref{eq:generalRecurrenceWhite}) for a fixed structure
 $\mathcal{U} = (V,E,N)$. In order to find required coefficients 
 of polynomials $(p_\Delta)_{\Delta\in D}$
@@ -387,7 +392,7 @@ sufficiently many small values of the time parameter $t$.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \par
 \textbf{Example}. Let $\mathcal{G}= (\{0,1,2\},E,N)$ where $E$=$\{(0,1),(1,2)\}$
-and $N(0)$=$N(1)$=$N(2)$ = $n>1$. Then $prec{2} = \{0,1,2\}$, $p_0 = p_1 = p_2 = 1$, so
+and $N(0)$=$N(1)$=$N(2)$ = $n>1$. Then $prec(2) = \{0,1,2\}$, $p_0 = p_1 = p_2 = 1$, so
 $\Delta_0 = \Delta_1 = \Delta_1 =1 - \frac1n$. Hence $D(2) = \{1-\frac1n\}$ and
 $deg_2(1-\frac1n)=3$. 
 From Theorem \ref{thm:toLineraAlgebra} we deduce that 
@@ -403,7 +408,14 @@ $$
 $$
 In a similar way we may show that 
 $\E{W_1(t)} = n \left(1 + \frac{t}{n-1}\right) \left(1-\frac{1}{n}\right)^t$
-and, of course, that $\E{W_0(t)}$  = $n (1-\frac1n)^t$. 
+and, of course, that $\E{W_0(t)}$  = $n (1-\frac1n)^t$. \\
+
+It is clear that we can analyze in a similar way any system of urn with the underlying grap of the
+form $(\{0,\ldots,n+1\},E)$ where $E=\{(k,k+1): k=0,\ldots,n\}$. 
+However, in the next section
+we show a more uniform approach for this class of graphs. 
+Theorem \ref{thm:toLineraAlgebra} will be explicitly used in Sections \ref{Parallel} and \ref{sec:differentSerial}. 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -576,7 +588,7 @@ we get desired identity.
 \subsection{Asymptotic behavior}
 
 In this section we investigate asymptotic behavior of the system of urns. 
-In particular it is important for us, when the first black ball appears in particular 
+In particular it is important for us, when the first black ball appears in a particular 
 urn, when the fixed urn is full of black balls and when a big portion of balls in a given
 urn is black.  
 
